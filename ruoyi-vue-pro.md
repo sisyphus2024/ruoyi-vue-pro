@@ -103,11 +103,21 @@
 
 ---
 
-## 5. `yudao-spring-boot-starter-security`
+## 6. `yudao-spring-boot-starter-biz-tenant`
+1. `TenantProperties` 用于定义多租户的配置
+2. `TenantFrameworkService` 检验租户 id 是否合法、返回租户 id 集合
+3. `TenantContextWebFilter` Web 请求中获取到请求头的租户 ID，并设置到 `TenantContextHolder` 中
+4. `TenantIgnoreAspect` AOP 切面，为添加了 `@TenantIgnore` 注解的方法或者类会忽略多租户（通过 `TenantContextHolder` 设置忽略多租户）
+5. `TenantDatabaseInterceptor` 关于数据库的多租户拦截器，通过修改 SQL 语句，实现多租户。（以 `TenantLineInnerInterceptor` 形式注入到 MyBatisPlus 的拦截器链中）
+6. `TenantVisitContextInterceptor` 通过设置请求头的访问租户号，实现跨租户访问（修改 LoginUser 和 TenantContextHolder 的作用域租户号）
+7. `TenantSecurityWebFilter` 做一些租户安全的检查，例如：当前登录用户的租户 ID 是否合法且与 Request 的租户 ID 相同；校验当前租户 ID 是否合法
+8. `TenantJobAspect` 为 `@TenantJob` 注解提供支持：为所有租户 id 执行一次 Runnable（通过 `TenantUtils` 实现）
+9. `RedisCacheManager` 引入租户缓存，Redis 实现真实的缓存 key = `<key>:<tenant_id>`
+10. 为 MQ 提供多租户支持
 
 ---
 
-## 6. `yudao-spring-boot-starter-biz-tenant`
+## 5. `yudao-spring-boot-starter-security`
 
 ---
 
