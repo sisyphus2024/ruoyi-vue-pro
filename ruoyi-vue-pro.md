@@ -77,10 +77,19 @@
 模块基于 MyBatis-Plus 的数据访问层增强组件，提供了一整套完整的数据库访问解决方案。
 
 **`mybatis`(重要)**：
-
+1. `YudaoMybatisAutoConfiguration` 自动配置了
+    - 动态sql解析加速（缓存机制）
+    - `PaginationInnerInterceptor` 分页支持
+    - 常用数据库的自增主键机制（mysql不需要配置）
+    - `jacksonTypeHandler` 配置数据库存储json的方式
+2. mapper 的基础接口 `BaseMapperX<T>`、DO 基础接口 `BaseDO`
+3. `LambdaQueryWrapperX<T>`、`MPJLambdaWrapperX<T>`、`QueryWrapperX<T>` 作为查询条件的封装
+4. `MybatisUtils`(分页、字段排序场景常用)、`JdbcUtils`
+5. 通过 `@TableField` 注解，指定字段的 `typeHandler`，例如：`@TableField(typeHandler = EncryptTypeHandler.class)` 为密码字段加密
+6. `IdTypeEnvironmentPostProcessor` 根据配置的 `spring.datasource.dynamic.primary` 数据源，动态设置 id 自增类型
 
 **`datasource`**：
-`DataSourceEnum` 中配置了对应于多数据源中不同数据源配置，master、salve
+`DataSourceEnum` 中配置了对应于多数据源中不同数据源配置，master、salve（业务开发中搭配 **@DS** 注解使用，或 **@MASTER**、**@SALVE** 使用）
 
 **`translate`**：
 1. `TranslateUtils` 用于将 List<T> data 转换成 List<VO> dataVOList（需要搭配 `@Trans` 注解使用）
