@@ -94,6 +94,76 @@
 **`translate`**：
 1. `TranslateUtils` 用于将 List<T> data 转换成 List<VO> dataVOList（需要搭配 `@Trans` 注解使用）
 
+---
+
+## 4. `yudao-spring-boot-starter-redis`
+1. 配置 `TimeoutRedisCacheManager` 缓存管理器，更方便的配置超时时间。key 的设置可以满足 `<key1>#<entryTtl>:<key2>`，一般情况下使用 `<key>#<entryTtl>` 即可；entryTtl 的单位是 d/h/m/s(默认)
+2. 注入 `RedisTemplate<String, Object>` Bean
+说明：可直接使用 Spring Cache 相关注解。如：`@Cacheable(cacheNames = "cacheName", key = "#id")`、`@CachePut(cacheNames = "cacheName", key = "#id")`、`@CacheEvict(cacheNames = "cacheName", key = "#id")`
+
+---
+
+## 5. `yudao-spring-boot-starter-security`
+
+---
+
+## 6. `yudao-spring-boot-starter-biz-tenant`
+
+---
+
+## 7. `yudao-spring-boot-starter-biz-data-permission`
+
+---
+
+## 8. `yudao-spring-boot-starter-protection`
+
+---
+
+## 9. `yudao-spring-boot-starter-monitor`
+
+---
+
+## 10. `yudao-spring-boot-starter-job`
+
+---
+
+## 11. `yudao-module-infra`
+
+---
+
+## 12. `yudao-module-system`
+
+---
+
+## 13. `yudao-spring-boot-starter-biz-ip`
+
+---
+
+## 14. `yudao-spring-boot-starter-job`
+
+---
+
+## 15. `yudao-spring-boot-starter-mq`
+
+---
+
+## 16. `yudao-spring-boot-starter-excel`
+
+---
+
+## 17. `yudao-spring-boot-starter-websocket`
+
+---
+
+## 18. `yudao-spring-boot-starter-test`
+
+
+
+
+
+
+
+
 
 
 
