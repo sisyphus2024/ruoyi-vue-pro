@@ -118,6 +118,13 @@
 ---
 
 ## 5. `yudao-spring-boot-starter-security`
+> 最常用的注解：`@PreAuthorize`（需要与 `SecurityFrameworkService`(ss) 配合使用）、`@PermitAll`
+1. `SecurityProperties` 用于定义项目的 Security 配置
+2. `AuthenticationEntryPoint`、`AccessDeniedHandler` 认证和授权失败处理
+3. 默认采用 BCrypt 进行密码加密
+4. `TokenAuthenticationFilter` 作为 Spring Security 的过滤器，用于获取到 token 并构建为 LoginUser 后存储到 `SecurityFrameworkUtils` 中。(位置在 `UsernamePasswordAuthenticationFilter` 之前)
+5. `SecurityFrameworkUtils` 提供静态方法，用于获取当前登录用户信息或是认证信息（相当于 Spring Security 的 `SecurityContextHolder`）
+6. `AuthorizeRequestsCustomizer` 在其他模块中需要自定义权限配置，需要用一个配置类实现该接口，并注册到容器中
 
 ---
 
