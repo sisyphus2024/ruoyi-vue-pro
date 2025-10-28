@@ -129,6 +129,12 @@
 ---
 
 ## 7. `yudao-spring-boot-starter-biz-data-permission`
+1. `DataPermissionInterceptor` MyBatis Plus 的拦截器，用于实现数据权限，拦截器内部核心处理器为 `DataPermissionRuleHandler`
+2. `DataPermissionRule` 数据权限的 SQL 修改规则，由 `DataPermissionRuleHandler` 使用
+3. `DeptDataPermissionRuleCustomizer` 用于需要使用数据权限的表映射对应字段，默认为 `dept_id`，如有需要，实现 `DeptDataPermissionRuleCustomizer` 接口，并注入到容器中
+4. `@DataPermission` 注解用于标记类或方法是否开启数据权限以及数据权限规则配置，若不配置则默认开启且默认找到所有数据权限的规则并应用 `DataPermissionRule`
+5. `DataPermissionAnnotationAdvisor` 编程式 AOP 切面，为 `@DataPermission` 注解提供支持。增强处理逻辑 `DataPermissionAnnotationInterceptor`
+6. `DataPermissionContextHolder` 在当前数据权限上下文中存储 `@DataPermission` 注解
 
 ---
 
