@@ -157,6 +157,14 @@
 ---
 
 ## 10. `yudao-spring-boot-starter-job`
+**定时任务**：
+1. 自定义的 `SchedulerManager` 管理了 Quartz 的 `Scheduler`（由 Quartz 注入到 Spring 容器中）
+2. 本质上只有 `JobHandlerInvoker` 这一个 Quartz 任务。`JobHandlerInvoker` 获取容器中名为 jobHandlerName 且实现了 `JobHandler` 接口的实例
+3. 创建自动任务模板：1. 实现 `JobHandler` 接口，并添加 @Component 注册到容器中；2. 添加 @TenantJob 注解到执行
+4. 执行任务：1. 使用 `JobService` 创建 `JobSaveReqVO`；2. 通过 JobService#createJob 创建任务并执行；3. 通过 `JobService` Bean 来管理任务的执行规则（暂停、启动等...）
+**异步任务**：
+1. 有需要用到 `ThreadLocal` 的场景，全部改用 `TransmittableThreadLocal`
+2. 已启用 Spring Async，为方法添加 `@Async` 注解，异步任务
 
 ---
 
