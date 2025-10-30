@@ -178,10 +178,39 @@
 ---
 
 ## 12. `yudao-module-system`
+**api**：使用 **service** 包，使外部可以调用该模块的能力。
+**framework**：
+   - **captcha**：Captcha 的 `CaptchaCacheService` API 实现注入容器为 Bean
+   - **JustAuth**：
+      - `SocialTypeEnum` 登录类型的枚举
+      - 
+   - **sms**：`SmsSendApi` 和 `SmsCodeApi` 构成了短信发送和验证码的 API
+**service**：
+   - auth：`AdminAuthService`，管理后台的认证 Service 接口，提供用户的登录、登出的能力
+   - oauth2：(登录、注销、刷新 token 都是用了这一组 API)
+     - `OAuth2TokenService` 管理 AccessToken 的获取、刷新(基于 RefreshToken) 等能力
+     - `OAuth2ClientService` 提供管理所有与 OAuth2 的客户端的能力
+     - `OAuth2CodeService` 提供创建和消费授权码的能力
+     - `OAuth2ApproveService` 对客户端授权码权限的 scope 的管理
+     - `OAuth2GrantService` 统一实现多种授权模式的核心服务接口，用于生成、刷新和撤销访问令牌（Access Token），并支撑第三方应用或自身系统的安全访问控制
+   - notify：
+     - 
+   - mail：
+     - 
+   - sms：
+     - 
+   - social：
+     - 
+
+**util**：
+- `OAuth2Utils` OAuth2 的工具类。提供例如构建重定向 URL 的方法，或是获取超时时间等...
 
 ---
 
 ## 13. `yudao-spring-boot-starter-biz-ip`
+1. `AreaTypeEnum` 区域类型枚举
+2. `Area` 区域
+3. 通过 `IPUtils` 和 `AreaUtils` 工具类去操作区域信息
 
 ---
 
