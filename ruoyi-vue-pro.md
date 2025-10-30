@@ -16,11 +16,10 @@
 
 **非核心**：
 13. `yudao-spring-boot-starter-biz-ip`
-14. `yudao-spring-boot-starter-job`
-15. `yudao-spring-boot-starter-mq`
-16. `yudao-spring-boot-starter-excel`
-17. `yudao-spring-boot-starter-websocket`
-18. `yudao-spring-boot-starter-test`
+14. `yudao-spring-boot-starter-mq`
+15. `yudao-spring-boot-starter-excel`
+16. `yudao-spring-boot-starter-websocket`
+17. `yudao-spring-boot-starter-test`
 
 ---
 
@@ -160,7 +159,7 @@
 **定时任务**：
 1. 自定义的 `SchedulerManager` 管理了 Quartz 的 `Scheduler`（由 Quartz 注入到 Spring 容器中）
 2. 本质上只有 `JobHandlerInvoker` 这一个 Quartz 任务。`JobHandlerInvoker` 获取容器中名为 jobHandlerName 且实现了 `JobHandler` 接口的实例
-3. 创建自动任务模板：1. 实现 `JobHandler` 接口，并添加 @Component 注册到容器中；2. 添加 @TenantJob 注解到执行
+3. 创建自动任务模板：1. 实现 `JobHandler` 接口，并添加 @Component 注册到容器中；2. 添加 `@TenantJob` 或 `@TenantIgnore` 注解到执行方法中
 4. 执行任务：1. 使用 `JobService` 创建 `JobSaveReqVO`；2. 通过 JobService#createJob 创建任务并执行；3. 通过 `JobService` Bean 来管理任务的执行规则（暂停、启动等...）
 **异步任务**：
 1. 有需要用到 `ThreadLocal` 的场景，全部改用 `TransmittableThreadLocal`
@@ -169,7 +168,13 @@
 ---
 
 ## 11. `yudao-module-infra`
-
+**file**：`FileService` 和 `FileConfigService` 是文件系统外部操作文件的核心接口
+1. `FileClient` 定义文件操作的客户端接口；`FileClientConfig`(空接口) 对文件客户端的配置接口，不同实现的客户端，需要不同的配置，通过子类来定义
+2. `FileStorageEnum` 文件存储器的枚举，不同的文件存储模式对应了不同的 `FileClient`、`FileClientConfig`。如 DB、LOCAL、FTP、SFTP、S3
+3. `FileClientFactory`(由 `YudaoFileAutoConfiguration` 自动配置注入到容器中) 通过 `FileClientConfig` 和 `FileStorageEnum` 创建 `FileClient`
+4. `FileConfigDO` 持久化了文件客户端的配置信息（包含 `FileStorageEnum`、`FileClientConfig`、`master`...等）
+5. `FileConfigServiceImpl` 在创建 `FileClient` 时，会根据参数的 configId 获取 `FileConfigDO`，根据 `FileConfigDO` 的信息通过 `FileClientFactory` 创建 `FileClient`
+**config**：`ConfigService` 管理全局配置，由 `ConfigTypeEnum` 枚举区分系统配置和自定义配置
 ---
 
 ## 12. `yudao-module-system`
@@ -180,23 +185,19 @@
 
 ---
 
-## 14. `yudao-spring-boot-starter-job`
+## 14. `yudao-spring-boot-starter-mq`
 
 ---
 
-## 15. `yudao-spring-boot-starter-mq`
+## 15. `yudao-spring-boot-starter-excel`
 
 ---
 
-## 16. `yudao-spring-boot-starter-excel`
+## 16. `yudao-spring-boot-starter-websocket`
 
 ---
 
-## 17. `yudao-spring-boot-starter-websocket`
-
----
-
-## 18. `yudao-spring-boot-starter-test`
+## 17. `yudao-spring-boot-starter-test`
 
 
 
