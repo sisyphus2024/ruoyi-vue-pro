@@ -181,6 +181,11 @@
 **api**：使用 **service** 包，使外部可以调用该模块的能力。
 **framework**：
    - **captcha**：Captcha 的 `CaptchaCacheService` API 实现注入容器为 Bean
+     - `CaptchaService` 同一验证码的服务抽象（get/check/verify）：根据配置选用不同的验证码模式（blockPuzzle 滑块拼图、clickWord 文字点选、pictureWord 文本输入）
+     - `CaptchaCacheService` Redis 默认的缓存实现。接口提供 set/get/exists/delete 等最小化缓存抽象，屏蔽“内存/Redis/自定义”的差异，AbstractCaptchaService 及各实现都通过它来读写一次/二次校验相关的 key
+     - `CaptchaVO` 承载一次交互的数据载体
+     - `ResponseModel`/`RepCodeEnum` 统一的结果包装与错误码定义
+     - `CaptchaServiceFactory` 按 captchaType() 选择具体 CaptchaService；并按配置/类型选择 CaptchaCacheService（依赖 Java SPI）
    - **JustAuth**：
       - `SocialTypeEnum` 登录类型的枚举
       - 
@@ -194,7 +199,9 @@
      - `OAuth2ApproveService` 对客户端授权码权限的 scope 的管理
      - `OAuth2GrantService` 统一实现多种授权模式的核心服务接口，用于生成、刷新和撤销访问令牌（Access Token），并支撑第三方应用或自身系统的安全访问控制
    - notify：
-     - 
+     - `NotifySendService` 发送站内信的能力
+     - `NotifyTemplateService` 管理站内信模版
+     - `NotifyMessageService` 管理站内信息本身
    - mail：
      - 
    - sms：
