@@ -188,7 +188,18 @@
      - `CaptchaServiceFactory` 按 captchaType() 选择具体 CaptchaService；并按配置/类型选择 CaptchaCacheService（依赖 Java SPI）
    - **JustAuth**：
       - `SocialTypeEnum` 登录类型的枚举
-      - 
+      - `AuthRequest` 定义统一的授权流程接口（生成授权 URL、执行登录逻辑）
+      - `AuthRequestFactory` 工厂类，按平台类型动态创建对应的 AuthRequest 实例
+      - `AuthConfig` 封装第三方应用凭证（clientId、clientSecret、redirectUri、scope 等）
+      - `AuthCallback` 封装授权回调参数（code、state、auth_code、error 等）
+      - `AuthSource` 定义平台来源枚举（如 GITHUB、WECHAT、GOOGLE 等），用于区分授权渠道
+      - `AuthStateCache` 定义 state 的缓存与校验机制，用于防 CSRF 攻击。
+      - `AuthToken` 封装第三方授权凭证（accessToken、refreshToken、expireIn、scope、openId）
+      - `AuthUser` 统一用户信息模型，存储用户标识（uuid、nickname、avatar、email、token、source）
+      - `AuthResponse<T>` 标准化的响应封装，包含 code、msg、data 三要素
+      - `AuthResponseStatus` 定义通用返回状态码（SUCCESS、FAILURE、PARAM_ERROR 等）
+      - `AuthUtil` 提供 URL 拼接、参数编码、签名等通用工具函数
+      - `AuthChecker` 用于校验 AuthConfig 配置合法性（如 clientId、secret 是否为空）
    - **sms**：`SmsSendApi` 和 `SmsCodeApi` 构成了短信发送和验证码的 API
 **service**：
    - auth：`AdminAuthService`，管理后台的认证 Service 接口，提供用户的登录、登出的能力
@@ -206,8 +217,10 @@
      - 
    - sms：
      - 
-   - social：
-     - 
+   - social：需要用到 JustAuth 相关 API
+     - `SocialClientDO` 存储第三方应用的授权信息与本系统的关联，例如：clientId、clientSecret、socialType、userType 等... 指的是本系统的某个用户类型与第三方应用授权信息的关联
+     - `SocialUserDO` 存储第三方用户的信息，例如微信的 openId、nickname、avatar 等...
+     - 三方登录原理：通过第三方授权得到授权码，通过对应的 socialType、userType、code 获得到 socialUser(若不存在则通过 code 从第三方获取并存储到 DB)，查看 socialUserBind 是否存在，若不存在则跳到账号密码登录(趁机绑定当前 socialUser)
 
 **util**：
 - `OAuth2Utils` OAuth2 的工具类。提供例如构建重定向 URL 的方法，或是获取超时时间等...
