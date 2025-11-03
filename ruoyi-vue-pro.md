@@ -216,7 +216,10 @@
    - mail：
      - 
    - sms：
-     - 
+     - `SmsChannelDO` 短信渠道数据对象：代表系统中的短信渠道配置信息
+     - `SmsTemplateDO` 短信模板数据对象：存储短信模板的相关信息
+     - `SmsCodeDO` 手机验证码数据对象
+     - `SmsLogDO` 短信日志数据对象：用于存储手机验证码及其相关信息
    - social：需要用到 JustAuth 相关 API
      - `SocialClientDO` 存储第三方应用的授权信息与本系统的关联，例如：clientId、clientSecret、socialType、userType 等... 指的是本系统的某个用户类型与第三方应用授权信息的关联
      - `SocialUserDO` 存储第三方用户的信息，例如微信的 openId、nickname、avatar 等...
@@ -234,7 +237,9 @@
 
 ---
 
-## 14. `yudao-spring-boot-starter-mq`
+## 14. `yudao-spring-boot-starter-mq`（RabbitMQ）
+1. `RabbitTemplate ` 生产者通过 `RabbitTemplate` 发送消息
+2. `@RabbitListener(queues = xxx)` 消费者 Bean 监听队列
 
 ---
 
